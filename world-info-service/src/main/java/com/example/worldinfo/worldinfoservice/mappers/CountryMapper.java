@@ -11,8 +11,11 @@ import java.util.List;
 public interface CountryMapper {
     @Select("SELECT *, country_code2 AS countryCodeTwoLetters, country_code3 AS countryCodeThreeLetters " +
             "FROM countries "+
-            "ORDER BY #{property} " +
+            "ORDER BY #{property} " + "#{order} " +
             "LIMIT #{limit} OFFSET #{offset}"
     )
-    List<Country> findAll(@PathVariable int limit, @PathVariable int offset, String property);
+    List<Country> findAll(@PathVariable int limit, @PathVariable int offset, String property, String order);
+
+    @Select("SELECT COUNT(*) FROM countries")
+    int getCountriesCount();
 }

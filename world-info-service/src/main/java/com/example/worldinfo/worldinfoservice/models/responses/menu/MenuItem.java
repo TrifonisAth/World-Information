@@ -3,28 +3,25 @@ package com.example.worldinfo.worldinfoservice.models.responses.menu;
 import com.example.worldinfo.worldinfoservice.models.responses.actions.Action;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
-public class Option implements Serializable {
+public class MenuItem implements Serializable {
     private static final long serialVersionUID = 1L;
     private final String name;
     private final String description;
-    private final Set<Action> actions;
+    private final Action action;
 
-    public Option(String name, String description, Set<Action> actions) {
+    public MenuItem(String name, String description, Action action) {
         this.name = name;
         this.description = description;
-        this.actions = actions;
+        this.action = action;
     }
 
     @Override
     public String toString() {
-        return "Option{" +
+        return "MenuItem{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", actions=" + actions +
+                ", action=" + action +
                 '}';
     }
 
@@ -36,7 +33,7 @@ public class Option implements Serializable {
         return description;
     }
 
-    public Set<Action> getActions() {
-        return actions;
+    public Action getAction() {
+        return action;
     }
 }

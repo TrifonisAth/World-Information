@@ -10,6 +10,6 @@ class ClientMenuTest {
     void createDefault() {
         ClientMenu clientMenu = ClientMenu.createDefault();
         assertNotNull(clientMenu);
-        assertEquals(3, clientMenu.getOptions().size());
+        assertEquals(3, clientMenu.getMenuItems().size());
     }
 }

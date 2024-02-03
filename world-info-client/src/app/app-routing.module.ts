@@ -1,10 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { CountriesListComponent } from './countries-list/countries-list.component';
+import { SpokenLanguagesListComponent } from './spoken-languages-list/spoken-languages-list.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  {
+    path: 'countries',
+    component: CountriesListComponent,
+    children: [
+      {
+        path: ':countryId/languages',
+        component: SpokenLanguagesListComponent,
+      },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

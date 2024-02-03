@@ -1,0 +1,12 @@
+<div *ngIf="mainMenu">
+  <h2>{{ mainMenu.title }}</h2>
+  <div
+    *ngFor="let item of mainMenu.menuItems"
+    class="menu-item"
+    [routerLink]="item.action.uri"
+  >
+    <span>{{ item.action.uri }}</span>
+    <h2>{{ item.name }}</h2>
+    <p>{{ item.description }}</p>
+  </div>
+</div>

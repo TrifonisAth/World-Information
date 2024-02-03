@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { CountriesListComponent } from './countries-list/countries-list.component';
+import { SpokenLanguagesListComponent } from './spoken-languages-list/spoken-languages-list.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  declarations: [AppComponent, HomeComponent, CountriesListComponent, SpokenLanguagesListComponent],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
