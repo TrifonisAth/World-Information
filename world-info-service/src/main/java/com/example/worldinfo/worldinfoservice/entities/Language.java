@@ -1,6 +1,9 @@
 package com.example.worldinfo.worldinfoservice.entities;
 
-public class Language {
+import java.io.Serializable;
+
+public class Language implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final int languageId;
     private final String language;
     private final boolean isOfficial;
@@ -19,7 +22,17 @@ public class Language {
         return language;
     }
 
-    public boolean getIsOfficial() {
+    public boolean isOfficial() {
         return isOfficial;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Language{" +
+                "languageId=" + languageId +
+                ", language='" + language + '\'' +
+                ", isOfficial=" + isOfficial +
+                '}';
     }
 }

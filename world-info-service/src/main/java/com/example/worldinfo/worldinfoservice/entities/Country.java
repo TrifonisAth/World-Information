@@ -1,9 +1,11 @@
 package com.example.worldinfo.worldinfoservice.entities;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Country {
+public class Country implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final short countryId;
     private final String name;
     private final float area;
@@ -48,5 +50,18 @@ public class Country {
 
     public float getArea() {
         return area;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "countryId=" + countryId +
+                ", name='" + name + '\'' +
+                ", area=" + area +
+                ", nationalDay=" + nationalDay +
+                ", countryCodeTwoLetters='" + countryCodeTwoLetters + '\'' +
+                ", countryCodeThreeLetters='" + countryCodeThreeLetters + '\'' +
+                ", regionId=" + regionId +
+                '}';
     }
 }
