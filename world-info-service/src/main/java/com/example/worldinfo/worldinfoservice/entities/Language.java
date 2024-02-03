@@ -1,27 +1,25 @@
 package com.example.worldinfo.worldinfoservice.entities;
 
 public class Language {
-    private int languageId;
-    private String name;
+    private final int languageId;
+    private final String language;
+    private final boolean isOfficial;
 
-    public Language(int languageId, String name) {
+    public Language(int languageId, String language, boolean isOfficial) {
         this.languageId = languageId;
-        this.name = name;
+        this.language = language;
+        this.isOfficial = isOfficial;
     }
 
     public int getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(int languageId) {
-        this.languageId = languageId;
+    public String getLanguage() {
+        return language;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public boolean getIsOfficial() {
+        return isOfficial;
     }
 }
