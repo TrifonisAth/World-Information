@@ -22,8 +22,9 @@ public class ClientMenu implements Serializable {
         List<MenuItem> menuItems = new ArrayList<>();
         Action act1 = getPaginationAction("ShowCountries", "/countries", Arrays.asList("name", "area", "country_code2"));
         Action act2 = getPaginationAction("ShowCountriesStats", "/countries/stats", Arrays.asList("name", "country_code3", "year", "population", "gdp", "gdp_per_capita"));
-        Action act3 = getPaginationAction("ShowContinents", "/continents", Arrays.asList("dummyParam1", "dummyParam2"));
-
+//      TODO: Uncomment later, when the query is ready.
+//        Action act3 = getPaginationAction("ShowAll", "/countries/complete", Arrays.asList("continent", "region", "country", "year", "population", "gdp"));
+        Action act3 = getPaginationAction("ShowAll", "/countries/complete", Arrays.asList("name", "country_code3", "year", "population", "gdp", "gdp_per_capita"));
         MenuItem menuItem1 = getMenuItem1(act1);
         MenuItem menuItem2 = getMenuItem2(act2);
         MenuItem menuItem3 = getMenuItem3(act3);
@@ -66,8 +67,9 @@ public class ClientMenu implements Serializable {
 
     // TODO: Change later!.
     private static MenuItem getMenuItem3(Action act3) {
-        return new MenuItem("Display Continents list",
-                "Displays the Language's name, country code and percentage of speakers in ordered list",
+        return new MenuItem("Display All Countries Stats table with Continents and Regions",
+                "Displays every year's stats for every country." +
+                        "The list is paginated. By clicking on a column header, the user can sort the results by that column, ascending or descending.",
                 act3);
     }
 

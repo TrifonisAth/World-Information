@@ -32,6 +32,9 @@ export class CountriesListComponent {
     if (this.router.url.includes('stats')) {
       this.mode = 'ShowCountriesStats';
     }
+    if (this.router.url.includes('complete')) {
+      this.mode = 'ShowAll';
+    }
     this.getCountriesRequest();
   }
 
@@ -66,6 +69,7 @@ export class CountriesListComponent {
   }
 
   onCountryClick(country: ICountry): void {
+    if (this.mode !== 'ShowCountries') return;
     this.router.navigate(['countries', country.countryId, 'languages']);
   }
 

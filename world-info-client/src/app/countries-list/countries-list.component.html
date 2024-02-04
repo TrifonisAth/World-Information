@@ -87,9 +87,10 @@
   </ng-container>
 
   <!-- Country Code 3 Column -->
+  <!-- Remove the OR in the ngIf -->
   <ng-container
     matColumnDef="country_code3"
-    *ngIf="getMode() === 'ShowCountriesStats'"
+    *ngIf="getMode() === 'ShowCountriesStats' || getMode() === 'ShowAll'"
   >
     <th
       mat-header-cell
@@ -116,8 +117,65 @@
     </td>
   </ng-container>
 
+  <!-- Continent Column -->
+  <!-- <ng-container matColumnDef="continent" *ngIf="getMode() === 'ShowAll'">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      class="column"
+      (click)="onPropertyClick('continent')"
+    >
+      Continent
+      <ng-container *ngIf="isSelectedProperty('continent')">
+        <img
+          *ngIf="isAscending()"
+          src="../assets/icons/sort-asc.svg"
+          alt="sort-ascending"
+        />
+        <img
+          *ngIf="!isAscending()"
+          src="../assets/icons/sort-desc.svg"
+          alt="sort-descending"
+        />
+      </ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.continent }}
+    </td>
+  </ng-container> -->
+
+  <!-- Region Column -->
+  <!-- <ng-container matColumnDef="region" *ngIf="getMode() === 'ShowAll'">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      class="column"
+      (click)="onPropertyClick('region')"
+    >
+      Region
+      <ng-container *ngIf="isSelectedProperty('region')">
+        <img
+          *ngIf="isAscending()"
+          src="../assets/icons/sort-asc.svg"
+          alt="sort-ascending"
+        />
+        <img
+          *ngIf="!isAscending()"
+          src="../assets/icons/sort-desc.svg"
+          alt="sort-descending"
+        />
+      </ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.region }}
+    </td>
+  </ng-container> -->
+
   <!-- Year Column -->
-  <ng-container matColumnDef="year" *ngIf="getMode() === 'ShowCountriesStats'">
+  <ng-container
+    matColumnDef="year"
+    *ngIf="getMode() === 'ShowCountriesStats' || getMode() === 'ShowAll'"
+  >
     <th
       mat-header-cell
       *matHeaderCellDef
@@ -146,7 +204,7 @@
   <!-- Population Column -->
   <ng-container
     matColumnDef="population"
-    *ngIf="getMode() === 'ShowCountriesStats'"
+    *ngIf="getMode() === 'ShowCountriesStats' || getMode() === 'ShowAll'"
   >
     <th
       mat-header-cell
@@ -174,7 +232,10 @@
   </ng-container>
 
   <!-- GDP Column -->
-  <ng-container matColumnDef="gdp" *ngIf="getMode() === 'ShowCountriesStats'">
+  <ng-container
+    matColumnDef="gdp"
+    *ngIf="getMode() === 'ShowCountriesStats' || getMode() === 'ShowAll'"
+  >
     <th
       mat-header-cell
       *matHeaderCellDef
@@ -201,9 +262,10 @@
   </ng-container>
 
   <!-- GDP per Capita Column -->
+  <!-- Remove the OR in the ngIf -->
   <ng-container
     matColumnDef="gdp_per_capita"
-    *ngIf="getMode() === 'ShowCountriesStats'"
+    *ngIf="getMode() === 'ShowCountriesStats' || getMode() === 'ShowAll'"
   >
     <th
       mat-header-cell

@@ -58,6 +58,8 @@ export interface ICountry {
   gdp: number;
   gdpPerCapita: number;
   year: number;
+  continent: string;
+  region: string;
 }
 
 export interface ILanguage {

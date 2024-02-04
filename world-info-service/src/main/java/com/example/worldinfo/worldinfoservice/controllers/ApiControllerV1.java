@@ -10,10 +10,10 @@ import com.example.worldinfo.worldinfoservice.models.responses.pagination.Countr
 import com.example.worldinfo.worldinfoservice.models.responses.pagination.CountryWithStatsPagination;
 import com.example.worldinfo.worldinfoservice.models.responses.pagination.Pagination;
 import com.example.worldinfo.worldinfoservice.models.responses.pagination.PaginationLink;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequestMapping("api/v1")
 @RestController
@@ -82,6 +82,38 @@ public class ApiControllerV1 {
         );
     }
 
+    @GetMapping("countries/complete")
+    public Pagination getCountriesComplete(
+            @RequestParam(value = "limit", defaultValue = "10") int limit,
+            @RequestParam(value = "offset", defaultValue = "0") int offset,
+            @RequestParam(value = "property", defaultValue = "name") String property,
+            @RequestParam(value = "order", defaultValue = "ASC") String order
+    ) {
+        limit = validateInput(limit, 10, 100);
+        offset = validateInput(offset, 0, 9513);
+        property = validateInput(property, PropertyWithStats.class);
+        order = validateInput(order, Order.class);
+        // TODO: The query of the mapper has to be fixed.
+//        List<CountryComplete> data = countryMapper.findAllComplete(limit, offset, property, order);
+        // TODO: Dummy data for now.
+        List<CountryWithStats> data = countryMapper.findAllCompleteDummy(limit, offset, property, order);
+        List<PaginationLink> links = getLinks("/countries/complete", limit, offset, property, order);
+        return new CountryWithStatsPagination(
+                offset / limit + 1,
+                limit,
+                countryMapper.getCountriesCount(),
+                offset,
+                property, order, links, data
+        );
+//                return new CountryCompletePagination(
+//                offset / limit + 1,
+//                limit,
+//                countryMapper.getCountriesCount(),
+//                offset,
+//                property, order, links, data
+//        );
+    }
+
     private<T extends Enum<T>> String validateInput(String variable, Class<T> enumClass) {
         for (T value : enumClass.getEnumConstants()) {
             if (value.name().equalsIgnoreCase(variable)) {
@@ -103,12 +135,14 @@ public class ApiControllerV1 {
 
     private List<PaginationLink> getLinks(String resource, int limit, int offset, String property, String order) {
         List<PaginationLink> links = new ArrayList<>();
-        // TODO: Might need to use different mapper method to get the count, as the current one is for countries only.
-        // TODO: Add logic to handle edge cases. offset + limit > total, offset - limit < 0
+        int count = countryMapper.getCountriesCount();
+        if (resource.equals("/countries/complete")){
+            count = 9514;
+        }
         links.add(new PaginationLink("next", resource + "?limit=" + limit + "&offset=" + (offset + limit) + "&property=" + property + "&order=" + order));
         links.add(new PaginationLink("prev", resource + "?limit=" + limit + "&offset=" + (offset - limit) + "&property=" + property + "&order=" + order));
         links.add(new PaginationLink("first", resource + "?limit=" + limit + "&offset=0&property=" + property + "&order=" + order));
-        links.add(new PaginationLink("last", resource + "?limit=" + limit + "&offset=" + (countryMapper.getCountriesCount() - limit) + "&property=" + property + "&order=" + order));
+        links.add(new PaginationLink("last", resource + "?limit=" + limit + "&offset=" + (count - limit) + "&property=" + property + "&order=" + order));
         return links;
     }
 
@@ -122,5 +156,10 @@ public class ApiControllerV1 {
 
     private enum PropertyWithStats {
         NAME, COUNTRY_CODE3, YEAR, POPULATION, GDP, GDP_PER_CAPITA
+    }
+
+
+    private enum PropertyFull {
+        NAME, CONTINENT, REGION, YEAR, POPULATION, GDP
     }
 }
