@@ -18,6 +18,7 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.httpService.getMainMenu().subscribe((response: IMainMenuResponse) => {
+      console.log(response);
       this.mainMenu = response;
       this.actionService.clearActions();
       for (let item of this.mainMenu.menuItems) {

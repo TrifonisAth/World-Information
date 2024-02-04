@@ -44,6 +44,7 @@ public class ClientMenu implements Serializable {
         act1Params.add(act1Param1);
         act1Params.add(act1Param2);
         act1Params.add(act1Param3);
+        act1Params.add(act1Param4);
         return new Action(name,
                 uri,
                 "GET",

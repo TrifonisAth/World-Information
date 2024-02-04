@@ -1,15 +1,13 @@
 package com.example.worldinfo.worldinfoservice.controllers;
 
 import com.example.worldinfo.worldinfoservice.entities.Country;
+import com.example.worldinfo.worldinfoservice.entities.CountryComplete;
 import com.example.worldinfo.worldinfoservice.entities.CountryWithStats;
 import com.example.worldinfo.worldinfoservice.entities.Language;
 import com.example.worldinfo.worldinfoservice.mappers.CountryMapper;
 import com.example.worldinfo.worldinfoservice.mappers.LanguageMapper;
 import com.example.worldinfo.worldinfoservice.models.responses.menu.ClientMenu;
-import com.example.worldinfo.worldinfoservice.models.responses.pagination.CountryPagination;
-import com.example.worldinfo.worldinfoservice.models.responses.pagination.CountryWithStatsPagination;
-import com.example.worldinfo.worldinfoservice.models.responses.pagination.Pagination;
-import com.example.worldinfo.worldinfoservice.models.responses.pagination.PaginationLink;
+import com.example.worldinfo.worldinfoservice.models.responses.pagination.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -68,7 +66,7 @@ public class ApiControllerV1 {
             @RequestParam(value = "order", defaultValue = "ASC") String order
     ) {
         limit = validateInput(limit, 10, 100);
-        offset = validateInput(offset, 0, 238);
+        offset = validateInput(offset, 0, 202);
         property = validateInput(property, PropertyWithStats.class);
         order = validateInput(order, Order.class);
         List<CountryWithStats> data = countryMapper.findAllMaxGdpPerCapital(limit, offset, property, order);
@@ -76,7 +74,7 @@ public class ApiControllerV1 {
         return new CountryWithStatsPagination(
                 offset / limit + 1,
                 limit,
-                countryMapper.getCountriesCount(),
+                203,
                 offset,
                 property, order, links, data
         );
@@ -101,14 +99,14 @@ public class ApiControllerV1 {
         return new CountryWithStatsPagination(
                 offset / limit + 1,
                 limit,
-                countryMapper.getCountriesCount(),
+                9514,
                 offset,
                 property, order, links, data
         );
 //                return new CountryCompletePagination(
 //                offset / limit + 1,
 //                limit,
-//                countryMapper.getCountriesCount(),
+//                9513,
 //                offset,
 //                property, order, links, data
 //        );
@@ -135,9 +133,11 @@ public class ApiControllerV1 {
 
     private List<PaginationLink> getLinks(String resource, int limit, int offset, String property, String order) {
         List<PaginationLink> links = new ArrayList<>();
-        int count = countryMapper.getCountriesCount();
+        int count = 239;
         if (resource.equals("/countries/complete")){
             count = 9514;
+        } else if (resource.equals("/countries/stats")) {
+            count = 203;
         }
         links.add(new PaginationLink("next", resource + "?limit=" + limit + "&offset=" + (offset + limit) + "&property=" + property + "&order=" + order));
         links.add(new PaginationLink("prev", resource + "?limit=" + limit + "&offset=" + (offset - limit) + "&property=" + property + "&order=" + order));

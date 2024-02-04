@@ -4,8 +4,6 @@ import com.example.worldinfo.worldinfoservice.entities.Country;
 import com.example.worldinfo.worldinfoservice.entities.CountryComplete;
 import com.example.worldinfo.worldinfoservice.entities.CountryWithStats;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -46,7 +44,7 @@ public interface CountryMapper {
                     "JOIN " +
                     "(SELECT country_id, year, population, gdp " +
                     "FROM country_stats " +
-                    "GROUP BY country_id)" +
+                    ")" +
                     "cs " +
                     "ON c.country_id = cs.country_id " +
                     "ORDER BY ${property} " +  "${order} " +
