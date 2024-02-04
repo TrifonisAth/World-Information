@@ -27,7 +27,6 @@ export class SpokenLanguagesListComponent {
     if (id === null) return;
     this.httpService.getCountrySpokenLanguages(+id).subscribe({
       next: (response: ILanguage[]) => {
-        console.log(response);
         this.dataSource = response;
       },
       error: (error) => {

@@ -65,7 +65,6 @@ export class HttpService {
           this.apiURL = `${this.apiURL}/${this.apiVersion}`;
           // The menuAction contains the URI to get the main menu.
           const menuAction = response.menuAction.uri;
-          console.log('API: ', this.apiURL);
           // Use switchMap to switch to the new observable
           this.http
             .get<IMainMenuResponse>(`${this.apiURL}${menuAction}`)

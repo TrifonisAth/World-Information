@@ -6,7 +6,26 @@
 >
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      class="column"
+      (click)="onPropertyClick('name')"
+    >
+      Name
+      <ng-container *ngIf="isSelectedProperty('name')">
+        <img
+          *ngIf="isAscending()"
+          src="../assets/icons/sort-asc.svg"
+          alt="sort-ascending"
+        />
+        <img
+          *ngIf="!isAscending()"
+          src="../assets/icons/sort-desc.svg"
+          alt="sort-descending"
+        />
+      </ng-container>
+    </th>
     <td mat-cell *matCellDef="let element" mat-sort-header>
       {{ element.name }}
     </td>
@@ -14,13 +33,51 @@
 
   <!-- Area Column -->
   <ng-container matColumnDef="area">
-    <th mat-header-cell *matHeaderCellDef>Area</th>
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      class="column"
+      (click)="onPropertyClick('area')"
+    >
+      Area
+      <ng-container *ngIf="isSelectedProperty('area')">
+        <img
+          *ngIf="isAscending()"
+          src="../assets/icons/sort-asc.svg"
+          alt="sort-ascending"
+        />
+        <img
+          *ngIf="!isAscending()"
+          src="../assets/icons/sort-desc.svg"
+          alt="sort-descending"
+        />
+      </ng-container>
+    </th>
     <td mat-cell *matCellDef="let element">{{ element.area }}</td>
   </ng-container>
 
   <!-- Country Code Column -->
-  <ng-container matColumnDef="countryCodeTwoLetters">
-    <th mat-header-cell *matHeaderCellDef>Country Code</th>
+  <ng-container matColumnDef="country_code2">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      class="column"
+      (click)="onPropertyClick('country_code2')"
+    >
+      Country Code
+      <ng-container *ngIf="isSelectedProperty('country_code2')">
+        <img
+          *ngIf="isAscending()"
+          src="../assets/icons/sort-asc.svg"
+          alt="sort-ascending"
+        />
+        <img
+          *ngIf="!isAscending()"
+          src="../assets/icons/sort-desc.svg"
+          alt="sort-descending"
+        />
+      </ng-container>
+    </th>
     <td mat-cell *matCellDef="let element">
       {{ element.countryCodeTwoLetters }}
     </td>

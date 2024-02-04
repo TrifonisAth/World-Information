@@ -70,7 +70,9 @@ public class ClientMenu implements Serializable {
 
     private static MenuItem getMenuItem1(Action act1) {
         return new MenuItem("Display Countries list",
-                "Displays the County's name, area and two letter country code in ordered list",
+                "Displays the County's name, area and two letter country code in ordered list. "+
+                        "The list is paginated. By clicking on a country, the user can see the country's spoken languages. " +
+                        "By clicking on a column header, the user can sort the results by that column, ascending or descending.",
                 act1);
     }
 

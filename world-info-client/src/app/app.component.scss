@@ -61,14 +61,28 @@ a {
 
 .home {
   height: 50px;
-  padding: 0.5rem;
+  padding: 0.3rem;
   color: white;
   border: 1px solid black;
   border-radius: 0.5rem;
   background-color: white;
-  margin: 1rem;
+  margin: 0.5rem;
   &:hover {
     background-color: #3a5068;
     cursor: pointer;
+  }
+}
+
+header {
+  div {
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    &:hover {
+      background-color: black;
+    }
+    p {
+      text-align: center;
+      color: wheat;
+    }
   }
 }

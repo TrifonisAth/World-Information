@@ -17,7 +17,7 @@ import { CountryPagination } from '../models/countryPagination';
 export class CountriesListComponent {
   title = 'Countries List';
   private pagination: CountryPagination = new CountryPagination();
-  displayedColumns: string[] = ['name', 'area', 'countryCodeTwoLetters'];
+  displayedColumns: string[] = ['name', 'area', 'country_code2'];
 
   constructor(
     private httpService: HttpService,
@@ -37,9 +37,7 @@ export class CountriesListComponent {
       .makeRequest(action, this.pagination.getHttpParams())
       .subscribe({
         next: (response: ICountryPagination) => {
-          console.log(response);
           this.pagination = new CountryPagination(response);
-          console.log(this.getPagination().getCountries());
         },
         error: (error) => {
           console.error(error);
@@ -58,7 +56,23 @@ export class CountriesListComponent {
   }
 
   onCountryClick(country: ICountry): void {
-    console.log('Country Clicked', country);
     this.router.navigate(['countries', country.countryId, 'languages']);
+  }
+
+  onPropertyClick(property: string): void {
+    this.pagination.setOrderBy(property);
+    this.pagination.setOrder(this.isAscending() ? 'DESC' : 'ASC');
+    this.getCountriesRequest();
+  }
+
+  isSelectedProperty(property: string): boolean {
+    return this.pagination.getOrderBy() === property;
+  }
+
+  isAscending(): boolean {
+    return (
+      this.pagination.getOrder() === 'ASC' ||
+      this.pagination.getOrder() === 'asc'
+    );
   }
 }

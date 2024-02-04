@@ -11,3 +11,10 @@ th {
 td {
   font-size: 1rem;
 }
+
+.column {
+  &:hover {
+    background-color: lightcoral !important;
+    cursor: pointer;
+  }
+}

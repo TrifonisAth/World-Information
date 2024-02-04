@@ -17,15 +17,12 @@ export class HomeComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.actionService.getActions());
     this.httpService.getMainMenu().subscribe((response: IMainMenuResponse) => {
       this.mainMenu = response;
       this.actionService.clearActions();
       for (let item of this.mainMenu.menuItems) {
         this.actionService.addAction(item.action);
       }
-      console.log('Actions: ', this.actionService.getActions());
-      console.log('Main Menu: ', this.mainMenu);
     });
   }
 }
