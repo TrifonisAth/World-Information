@@ -6,7 +6,7 @@ import {
   ICountry,
   ICountryPagination,
 } from '../interfaces/interfaces';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CountryPagination } from '../models/countryPagination';
 
 @Component({
@@ -17,27 +17,37 @@ import { CountryPagination } from '../models/countryPagination';
 export class CountriesListComponent {
   title = 'Countries List';
   private pagination: CountryPagination = new CountryPagination();
-  displayedColumns: string[] = ['name', 'area', 'country_code2'];
+  private mode: string = 'ShowCountries';
+  displayedColumns: string[] | undefined = [];
 
   constructor(
     private httpService: HttpService,
     private actionService: ActionService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    // Check if the user is in the countries/stats route.
+    if (this.router.url.includes('stats')) {
+      this.mode = 'ShowCountriesStats';
+    }
     this.getCountriesRequest();
   }
 
   getCountriesRequest(): void {
     const action: IAction = this.actionService
       .getActions()
-      .get('ShowCountries') as IAction;
+      .get(this.mode) as IAction;
     this.httpService
       .makeRequest(action, this.pagination.getHttpParams())
       .subscribe({
         next: (response: ICountryPagination) => {
           this.pagination = new CountryPagination(response);
+          this.displayedColumns = this.httpService
+            .getOrderParams()
+            .get(this.mode);
+          console.log(response);
         },
         error: (error) => {
           console.error(error);
@@ -74,5 +84,9 @@ export class CountriesListComponent {
       this.pagination.getOrder() === 'ASC' ||
       this.pagination.getOrder() === 'asc'
     );
+  }
+
+  getMode(): string {
+    return this.mode;
   }
 }

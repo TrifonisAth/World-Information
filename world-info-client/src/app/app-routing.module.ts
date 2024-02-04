@@ -14,6 +14,7 @@ const routes: Routes = [
     path: 'countries/:id/languages',
     component: SpokenLanguagesListComponent,
   },
+  { path: 'countries/stats', component: CountriesListComponent },
 ];
 
 @NgModule({

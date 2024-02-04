@@ -9,7 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { CountriesListComponent } from './countries-list/countries-list.component';
 import { SpokenLanguagesListComponent } from './spoken-languages-list/spoken-languages-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from './shared.module';
+import { SharedModule } from './paginator/shared.module';
 
 @NgModule({
   declarations: [

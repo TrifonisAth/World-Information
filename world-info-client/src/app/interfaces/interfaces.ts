@@ -30,14 +30,15 @@ export interface IAction {
 }
 
 export interface IActionParam {
+  options: string[];
   name: string;
   type: string;
   description: string;
 }
 
-export interface ISelectActionParam extends IActionParam {
-  options: string[];
-}
+// export interface ISelectActionParam extends IActionParam {
+//   options: string[];
+// }
 
 export interface IRangeActionParam extends IActionParam {
   min: number;
@@ -53,6 +54,10 @@ export interface ICountry {
   nationalDay: Date;
   countryCodeTwoLetters: string;
   countryCodeThreeLetters: string;
+  population: number;
+  gdp: number;
+  gdpPerCapita: number;
+  year: number;
 }
 
 export interface ILanguage {

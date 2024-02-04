@@ -20,7 +20,6 @@ export class PaginatorComponent {
     new EventEmitter<PageEvent>();
 
   handlePageEvent(e: PageEvent) {
-    console.log('Paginator Event', e);
     this.pageEventEmitter.emit(e);
     this.length = e.length;
     this.pageSize = e.pageSize;

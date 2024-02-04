@@ -21,9 +21,9 @@ public interface CountryMapper {
     int getCountriesCount();
 
     @Select(
-            "SELECT c.*, " +
-            "c.country_code2 AS countryCodeTwoLetters," +
-            "c.country_code3 AS countryCodeThreeLetters " +
+            "SELECT *, " +
+            "country_code2 AS countryCodeTwoLetters, " +
+            "country_code3 AS countryCodeThreeLetters " +
             "FROM countries c " +
                     "JOIN " +
                     "(SELECT country_id, year, population, gdp, MAX(gdp/population) AS gdp_per_capita " +

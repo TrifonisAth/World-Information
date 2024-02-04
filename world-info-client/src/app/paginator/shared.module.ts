@@ -1,6 +1,6 @@
 // shared.module.ts
 import { NgModule } from '@angular/core';
-import { PaginatorComponent } from './paginator/paginator.component';
+import { PaginatorComponent } from './paginator.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';

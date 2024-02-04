@@ -18,8 +18,13 @@ export class HttpService {
   private apiURL = environment.apiURL;
   private apiVersion: string = '';
   private actions: IAction[] = [];
+  private orderParams: Map<string, string[]> = new Map<string, string[]>();
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  getOrderParams(): Map<string, string[]> {
+    return this.orderParams;
+  }
 
   makeRequest(
     action: IAction,
@@ -70,6 +75,16 @@ export class HttpService {
             .get<IMainMenuResponse>(`${this.apiURL}${menuAction}`)
             .subscribe({
               next: (menuResponse: IMainMenuResponse) => {
+                console.log('Menu response: ', menuResponse);
+                menuResponse.menuItems.forEach((item) => {
+                  const name = item.action.name;
+                  item.action?.params.forEach((param) => {
+                    if (param.name === 'property') {
+                      this.orderParams.set(name, param.options);
+                    }
+                  });
+                });
+                console.log('Order params: ', this.orderParams);
                 observer.next(menuResponse);
                 observer.complete();
               },

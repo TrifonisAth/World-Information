@@ -1,11 +1,9 @@
 package com.example.worldinfo.worldinfoservice.models.responses.menu;
 
-import com.example.worldinfo.worldinfoservice.mappers.CountryMapper;
 import com.example.worldinfo.worldinfoservice.models.responses.actions.Action;
 import com.example.worldinfo.worldinfoservice.models.responses.actions.ActionParam;
 import com.example.worldinfo.worldinfoservice.models.responses.actions.RangeActionParam;
 import com.example.worldinfo.worldinfoservice.models.responses.actions.SelectActionParam;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.*;
@@ -22,9 +20,9 @@ public class ClientMenu implements Serializable {
 
     public static ClientMenu createDefault() {
         List<MenuItem> menuItems = new ArrayList<>();
-        Action act1 = getAction1();
-        Action act2 = getAction2();
-        Action act3 = getAction3();
+        Action act1 = getPaginationAction("ShowCountries", "/countries", Arrays.asList("name", "area", "country_code2"));
+        Action act2 = getPaginationAction("ShowCountriesStats", "/countries/stats", Arrays.asList("name", "country_code3", "year", "population", "gdp", "gdp_per_capita"));
+        Action act3 = getPaginationAction("ShowContinents", "/continents", Arrays.asList("dummyParam1", "dummyParam2"));
 
         MenuItem menuItem1 = getMenuItem1(act1);
         MenuItem menuItem2 = getMenuItem2(act2);
@@ -36,36 +34,19 @@ public class ClientMenu implements Serializable {
         return new ClientMenu("Main Menu", menuItems);
     }
 
-    private static Action getAction1() {
+    private static Action getPaginationAction(String name, String uri, List<String> properties) {
         RangeActionParam act1Param1 = new RangeActionParam("limit", "integer", "Countries per page", 10, 50, 10);
         RangeActionParam act1Param2 = new RangeActionParam("offset", "integer", "Number of countries to skip", 0, 500, 1);
-        SelectActionParam act1Param3 = new SelectActionParam("property", "string", "Property to order by", Arrays.asList("name", "area", "code"));
+        SelectActionParam act1Param3 = new SelectActionParam("property", "string", "Property to order by", properties);
+        SelectActionParam act1Param4 = new SelectActionParam("order", "string", "Order", Arrays.asList("ASC", "DESC"));
         List<ActionParam> act1Params = new ArrayList<>();
         act1Params.add(act1Param1);
         act1Params.add(act1Param2);
         act1Params.add(act1Param3);
-        return new Action("ShowCountries",
-                "/countries",
+        return new Action(name,
+                uri,
                 "GET",
                 act1Params);
-    }
-
-    // TODO: Change later!.
-    private static Action getAction2(){
-        return new Action("ShowCountriesGDP",
-                "/countries/gdp",
-                "GET",
-                null
-        );
-    }
-
-    // TODO: Change later!.
-    private static Action getAction3(){
-        return new Action("ShowContinents",
-                "/continents",
-                "GET",
-                null
-        );
     }
 
     private static MenuItem getMenuItem1(Action act1) {
@@ -76,10 +57,10 @@ public class ClientMenu implements Serializable {
                 act1);
     }
 
-    // TODO: Change later!.
     private static MenuItem getMenuItem2(Action act2) {
-        return new MenuItem("Display GDP list",
-                "Displays the Language's name, country code and percentage of speakers in ordered list",
+        return new MenuItem("Display Countries Stats table",
+                "Displays the Country's stats based on the year with the highest GDP per capita. " +
+                        "The list is paginated. By clicking on a column header, the user can sort the results by that column, ascending or descending.",
                 act2);
     }
 

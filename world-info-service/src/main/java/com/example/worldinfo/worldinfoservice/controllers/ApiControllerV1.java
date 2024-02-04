@@ -60,7 +60,7 @@ public class ApiControllerV1 {
         );
     }
 
-    @GetMapping("countries/gdp")
+    @GetMapping("countries/stats")
     public Pagination getCountriesWithGdp(
             @RequestParam(value = "limit", defaultValue = "10") int limit,
             @RequestParam(value = "offset", defaultValue = "0") int offset,
@@ -72,7 +72,7 @@ public class ApiControllerV1 {
         property = validateInput(property, PropertyWithStats.class);
         order = validateInput(order, Order.class);
         List<CountryWithStats> data = countryMapper.findAllMaxGdpPerCapital(limit, offset, property, order);
-        List<PaginationLink> links = getLinks("/countries/gdp", limit, offset, property, order);
+        List<PaginationLink> links = getLinks("/countries/stats", limit, offset, property, order);
         return new CountryWithStatsPagination(
                 offset / limit + 1,
                 limit,
@@ -83,10 +83,8 @@ public class ApiControllerV1 {
     }
 
     private<T extends Enum<T>> String validateInput(String variable, Class<T> enumClass) {
-        System.out.println("property: " + variable);
         for (T value : enumClass.getEnumConstants()) {
             if (value.name().equalsIgnoreCase(variable)) {
-                System.out.println("VAR: " + variable + " ENUM: " + value.name());
                 return variable;
             }
         }
@@ -123,6 +121,6 @@ public class ApiControllerV1 {
     }
 
     private enum PropertyWithStats {
-        NAME, AREA, COUNTRY_CODE3, YEAR, POPULATION, GDP, GDP_PER_CAPITA
+        NAME, COUNTRY_CODE3, YEAR, POPULATION, GDP, GDP_PER_CAPITA
     }
 }
