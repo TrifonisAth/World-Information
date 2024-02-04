@@ -111,3 +111,11 @@ export interface IPaginationLink {
   name: string;
   uri: string;
 }
+
+export interface ISlider {
+  min: number;
+  max: number;
+  step: number;
+  from: number;
+  to: number;
+}

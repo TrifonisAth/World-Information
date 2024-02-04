@@ -5,9 +5,11 @@ import {
   IAction,
   ICountry,
   ICountryPagination,
+  ISlider,
 } from '../interfaces/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CountryPagination } from '../models/countryPagination';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-countries-list',
@@ -18,7 +20,22 @@ export class CountriesListComponent {
   title = 'Countries List';
   private pagination: CountryPagination = new CountryPagination();
   private mode: string = 'ShowCountries';
+  slider: ISlider = {
+    from: 1960,
+    to: 2018,
+    step: 1,
+    max: 2018,
+    min: 1960,
+  };
   displayedColumns: string[] | undefined = [];
+  regions = new FormControl([
+    'Africa',
+    'Americas',
+    'Asia',
+    'Europe',
+    'Oceania',
+  ]);
+  regionsList: string[] = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'];
 
   constructor(
     private httpService: HttpService,
@@ -92,5 +109,12 @@ export class CountriesListComponent {
 
   getMode(): string {
     return this.mode;
+  }
+
+  onSliderToChange(event: number) {
+    this.slider.to = event;
+  }
+  onSliderFromChange(event: number) {
+    this.slider.from = event;
   }
 }

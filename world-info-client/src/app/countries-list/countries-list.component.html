@@ -1,4 +1,36 @@
 <h2>{{ title }}</h2>
+<div class="filters" *ngIf="getMode() === 'ShowAll'">
+  <p>Year</p>
+  <div>
+    <div>
+      <span class="label">{{ slider.from }}</span>
+      <mat-slider [min]="slider.min" [max]="slider.max">
+        <input
+          [value]="slider.from"
+          (valueChange)="onSliderFromChange($event)"
+          matSliderStartThumb
+        />
+        <input
+          [value]="slider.to"
+          (valueChange)="onSliderToChange($event)"
+          matSliderEndThumb
+        />
+      </mat-slider>
+      <span class="label">{{ slider.to }}</span>
+    </div>
+    <div class="dropdown">
+      <mat-form-field>
+        <mat-label>Regions</mat-label>
+        <mat-select [formControl]="regions" multiple>
+          <mat-option *ngFor="let region of regionsList" [value]="region">
+            {{ region }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
 <table
   mat-table
   [dataSource]="getPagination().getCountries()"
