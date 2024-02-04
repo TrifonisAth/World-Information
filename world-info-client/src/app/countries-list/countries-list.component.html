@@ -1,1 +1,19 @@
 <h2>{{ title }}</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Area</th>
+      <th>Country Code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let country of getPagination().getCountries()">
+      <tr>
+        <td>{{ country.name }}</td>
+        <td>{{ country.area }}</td>
+        <td>{{ country.countryCodeTwoLetters }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

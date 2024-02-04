@@ -1,3 +1,5 @@
+import { HttpParams } from '@angular/common/http';
+
 export interface IApiDiscovery {
   apiVersions: IApiVersion[];
   menuAction: IAction;
@@ -67,7 +69,35 @@ export interface IPagination {
   orderBy: string;
   order: string;
   links: IPaginationLink[];
-  data: any[];
+
+  setPagination(pagination: IPagination): void;
+  setLimit(limit: number): void;
+  setOffset(offset: number): void;
+  setOrderBy(orderBy: string): void;
+  setOrder(order: string): void;
+  setLinks(links: IPaginationLink[]): void;
+  setTotal(total: number): void;
+
+  getLimit(): number;
+  getOffset(): number;
+  getOrderBy(): string;
+  getOrder(): string;
+  getPageNumber(): number;
+  getTotal(): number;
+  getLinks(): IPaginationLink[];
+  getHttpParams(): HttpParams;
+
+  getPreviousLink(): string;
+  getNextLink(): string;
+  getFirstLink(): string;
+  getLastLink(): string;
+}
+
+export interface ICountryPagination extends IPagination {
+  countries: ICountry[];
+
+  setCountries(data: ICountry[]): void;
+  getCountries(): ICountry[];
 }
 
 export interface IPaginationLink {

@@ -3,7 +3,7 @@ package com.example.worldinfo.worldinfoservice.models.responses.pagination;
 import java.io.Serializable;
 import java.util.List;
 
-public class Pagination implements Serializable {
+public abstract class Pagination implements Serializable {
     private static final long serialVersionUID = 1L;
     private final int pageNumber;
     private final int limit;
@@ -12,9 +12,8 @@ public class Pagination implements Serializable {
     private final String orderBy;
     private final String order;
     private final List<PaginationLink> links;
-    private final List<Object> data;
 
-    public Pagination(int pageNumber, int limit, int total, int offset, String orderBy, String order, List<PaginationLink> links, List<Object> data) {
+    public Pagination(int pageNumber, int limit, int total, int offset, String orderBy, String order, List<PaginationLink> links) {
         this.pageNumber = pageNumber;
         this.limit = limit;
         this.total = total;
@@ -22,7 +21,6 @@ public class Pagination implements Serializable {
         this.orderBy = orderBy;
         this.order = order;
         this.links = links;
-        this.data = data;
     }
 
     @Override
@@ -35,7 +33,6 @@ public class Pagination implements Serializable {
                 ", orderBy='" + orderBy + '\'' +
                 ", orderAsc=" + order +
                 ", links=" + links +
-                ", data=" + data +
                 '}';
     }
 
@@ -67,7 +64,4 @@ public class Pagination implements Serializable {
         return total;
     }
 
-    public List<Object> getData() {
-        return data;
-    }
 }

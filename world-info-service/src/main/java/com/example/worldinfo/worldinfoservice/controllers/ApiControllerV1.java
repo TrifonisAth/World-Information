@@ -5,6 +5,7 @@ import com.example.worldinfo.worldinfoservice.entities.Language;
 import com.example.worldinfo.worldinfoservice.mappers.CountryMapper;
 import com.example.worldinfo.worldinfoservice.mappers.LanguageMapper;
 import com.example.worldinfo.worldinfoservice.models.responses.menu.ClientMenu;
+import com.example.worldinfo.worldinfoservice.models.responses.pagination.CountryPagination;
 import com.example.worldinfo.worldinfoservice.models.responses.pagination.Pagination;
 import com.example.worldinfo.worldinfoservice.models.responses.pagination.PaginationLink;
 import org.springframework.web.bind.annotation.*;
@@ -48,10 +49,11 @@ public class ApiControllerV1 {
         return getPagination("/countries", limit, offset, property, order);
     }
 
-    private<T extends Enum<T>> String validateInput(String property, Class<T> enumClass) {
+    private<T extends Enum<T>> String validateInput(String variable, Class<T> enumClass) {
         for (T value : enumClass.getEnumConstants()) {
-            if (value.name().equalsIgnoreCase(property)) {
-                return property;
+            if (value.name().equalsIgnoreCase(variable)) {
+                System.out.println("VAR: " + variable + " ENUM: " + value.name());
+                return variable;
             }
         }
         return enumClass.getEnumConstants()[0].name().toLowerCase();
@@ -66,20 +68,21 @@ public class ApiControllerV1 {
         return value;
     }
 
-    private Pagination getPagination(String resource, @PathVariable int limit, @PathVariable int offset, String property, String order) {
+    private Pagination getPagination(String resource, int limit, int offset, String property, String order) {
         List<Country> data = new ArrayList<>(countryMapper.findAll(limit, offset, property, order));
         List<PaginationLink> links = getLinks(resource, limit, offset, property, order);
-        return new Pagination(
+        return new CountryPagination(
                 offset / limit + 1,
                 limit,
                 countryMapper.getCountriesCount(),
                 offset,
-                property, order, links, Collections.singletonList(data)
+                property, order, links, data
         );
     }
 
     private List<PaginationLink> getLinks(String resource, int limit, int offset, String property, String order) {
         List<PaginationLink> links = new ArrayList<>();
+        // TODO: Add logic to handle edge cases. offset + limit > total, offset - limit < 0
         links.add(new PaginationLink("next", resource + "?limit=" + limit + "&offset=" + (offset + limit) + "&property=" + property + "&order=" + order));
         links.add(new PaginationLink("prev", resource + "?limit=" + limit + "&offset=" + (offset - limit) + "&property=" + property + "&order=" + order));
         links.add(new PaginationLink("first", resource + "?limit=" + limit + "&offset=0&property=" + property + "&order=" + order));
