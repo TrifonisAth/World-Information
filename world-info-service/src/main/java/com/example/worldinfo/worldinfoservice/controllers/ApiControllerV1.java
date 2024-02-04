@@ -42,7 +42,7 @@ public class ApiControllerV1 {
             @RequestParam(value = "property", defaultValue = "name") String property,
             @RequestParam(value = "order", defaultValue = "ASC") String order
     ) {
-        limit = validateInput(limit, 10, 50);
+        limit = validateInput(limit, 10, 100);
         offset = validateInput(offset, 0, 238);
         property = validateInput(property, Property.class);
         order = validateInput(order, Order.class);

@@ -1,15 +1,12 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpService } from '../services/http.service';
 import { ActionService } from '../services/action.service';
 import {
   IAction,
   ICountry,
   ICountryPagination,
-  IPagination,
 } from '../interfaces/interfaces';
 import { Router } from '@angular/router';
-import { HttpParams } from '@angular/common/http';
-import { Pagination } from '../models/pagination';
 import { CountryPagination } from '../models/countryPagination';
 
 @Component({
@@ -20,12 +17,12 @@ import { CountryPagination } from '../models/countryPagination';
 export class CountriesListComponent {
   title = 'Countries List';
   private pagination: CountryPagination = new CountryPagination();
+  displayedColumns: string[] = ['name', 'area', 'countryCodeTwoLetters'];
 
   constructor(
     private httpService: HttpService,
     private actionService: ActionService,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +39,6 @@ export class CountriesListComponent {
         next: (response: ICountryPagination) => {
           console.log(response);
           this.pagination = new CountryPagination(response);
-          this.cdr.detectChanges();
           console.log(this.getPagination().getCountries());
         },
         error: (error) => {
@@ -53,5 +49,16 @@ export class CountriesListComponent {
 
   getPagination(): CountryPagination {
     return this.pagination;
+  }
+
+  handlePageEvent(event: any): void {
+    this.pagination.setOffset(event.pageIndex * event.pageSize);
+    this.pagination.setLimit(event.pageSize);
+    this.getCountriesRequest();
+  }
+
+  onCountryClick(country: ICountry): void {
+    console.log('Country Clicked', country);
+    this.router.navigate(['countries', country.countryId, 'languages']);
   }
 }

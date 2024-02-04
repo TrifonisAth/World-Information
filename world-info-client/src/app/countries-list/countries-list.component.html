@@ -1,19 +1,43 @@
 <h2>{{ title }}</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Area</th>
-      <th>Country Code</th>
-    </tr>
-  </thead>
-  <tbody>
-    <ng-container *ngFor="let country of getPagination().getCountries()">
-      <tr>
-        <td>{{ country.name }}</td>
-        <td>{{ country.area }}</td>
-        <td>{{ country.countryCodeTwoLetters }}</td>
-      </tr>
-    </ng-container>
-  </tbody>
+<table
+  mat-table
+  [dataSource]="getPagination().getCountries()"
+  class="mat-elevation-z8"
+>
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element" mat-sort-header>
+      {{ element.name }}
+    </td>
+  </ng-container>
+
+  <!-- Area Column -->
+  <ng-container matColumnDef="area">
+    <th mat-header-cell *matHeaderCellDef>Area</th>
+    <td mat-cell *matCellDef="let element">{{ element.area }}</td>
+  </ng-container>
+
+  <!-- Country Code Column -->
+  <ng-container matColumnDef="countryCodeTwoLetters">
+    <th mat-header-cell *matHeaderCellDef>Country Code</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.countryCodeTwoLetters }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr
+    (click)="onCountryClick(row)"
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    class="mat-row"
+  ></tr>
 </table>
+
+<app-paginator
+  (pageEventEmitter)="handlePageEvent($event)"
+  [length]="getPagination().getTotal()"
+  [pageSize]="getPagination().getLimit()"
+  [pageIndex]="getPagination().getPageNumber() - 1"
+></app-paginator>

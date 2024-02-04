@@ -20,4 +20,8 @@ export class AppComponent {
     // Display a confirmation message when the user tries to refresh or close the page
     $event.returnValue = true;
   }
+
+  onClickHome(): void {
+    this.router.navigate(['']);
+  }
 }

@@ -39,6 +39,21 @@ export class HttpService {
     });
   }
 
+  getCountrySpokenLanguages(id: number) {
+    const url = `${this.apiURL}/countries/${id}/languages`;
+    return new Observable((observer: Observer<any>) => {
+      this.http.get(url).subscribe({
+        next: (response) => {
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        },
+      });
+    });
+  }
+
   getMainMenu(): Observable<IMainMenuResponse> {
     this.apiURL = environment.apiURL;
     const url = `${this.apiURL}/versions`;

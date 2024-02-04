@@ -1,1 +1,25 @@
-<p>spoken-languages-list works!</p>
+<h2>{{ title }}</h2>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- Language Column -->
+  <ng-container matColumnDef="language">
+    <th mat-header-cell *matHeaderCellDef>Language</th>
+    <td mat-cell *matCellDef="let element" mat-sort-header>
+      {{ element.language }}
+    </td>
+  </ng-container>
+
+  <!-- Is Official Column -->
+  <ng-container matColumnDef="official">
+    <th mat-header-cell *matHeaderCellDef>Official</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.official }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    class="mat-row"
+  ></tr>
+</table>

@@ -9,12 +9,10 @@ const routes: Routes = [
   {
     path: 'countries',
     component: CountriesListComponent,
-    children: [
-      {
-        path: ':countryId/languages',
-        component: SpokenLanguagesListComponent,
-      },
-    ],
+  },
+  {
+    path: 'countries/:id/languages',
+    component: SpokenLanguagesListComponent,
   },
 ];
 

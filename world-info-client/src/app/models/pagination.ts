@@ -21,7 +21,7 @@ export abstract class Pagination implements IPagination {
     this.total = 0;
     this.offset = 0;
     this.orderBy = 'name';
-    this.order = 'DESC';
+    this.order = 'ASC';
     this.links = [];
   }
 

@@ -1,3 +1,9 @@
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 main {
   flex: 1;
   display: flex;
@@ -19,6 +25,7 @@ footer {
   color: #f0f0f0;
   width: 100%;
   font-size: 0.8rem;
+  margin-top: 2rem;
   // flex-direction: column;
 
   div {
@@ -45,4 +52,23 @@ footer {
 a {
   color: black;
   text-decoration: none;
+}
+
+.icon {
+  width: 24px;
+  margin-left: 0.2rem;
+}
+
+.home {
+  height: 50px;
+  padding: 0.5rem;
+  color: white;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  background-color: white;
+  margin: 1rem;
+  &:hover {
+    background-color: #3a5068;
+    cursor: pointer;
+  }
 }
