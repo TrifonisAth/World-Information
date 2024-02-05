@@ -2,11 +2,12 @@ package com.example.worldinfo.worldinfoservice.models.responses.menu;
 
 import com.example.worldinfo.worldinfoservice.models.responses.actions.Action;
 import com.example.worldinfo.worldinfoservice.models.responses.actions.ActionParam;
-import com.example.worldinfo.worldinfoservice.models.responses.actions.RangeActionParam;
 import com.example.worldinfo.worldinfoservice.models.responses.actions.SelectActionParam;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ClientMenu implements Serializable {
     private static final long serialVersionUID = 1L;

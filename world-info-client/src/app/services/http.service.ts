@@ -121,7 +121,8 @@ export class HttpService {
     params: HttpParams,
     from: number,
     to: number,
-    regions: string[]
+    regions: string[],
+    flag: boolean = false
   ): Observable<any> {
     const url = `${this.apiURL}/countries/complete`;
     const urlParams = new HttpParams()
@@ -131,7 +132,8 @@ export class HttpService {
       .set('limit', params.get('limit') || '')
       .set('offset', params.get('offset') || '')
       .set('order', params.get('order') || '')
-      .set('property', params.get('property') || '');
+      .set('property', params.get('property') || '')
+      .set('flag', +flag);
     return new Observable((observer: Observer<any>) => {
       this.http.request(action.method, url, { params: urlParams }).subscribe({
         next: (response) => {

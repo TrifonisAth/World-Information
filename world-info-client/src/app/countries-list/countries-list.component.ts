@@ -138,11 +138,11 @@ export class CountriesListComponent {
 
   onSliderToChange(event: number) {
     this.slider.to = event;
-    this.getFilteredList();
+    this.getFilteredList(true);
   }
   onSliderFromChange(event: number) {
     this.slider.from = event;
-    this.getFilteredList();
+    this.getFilteredList(true);
   }
 
   onSelectionChange(event: boolean) {
@@ -151,7 +151,7 @@ export class CountriesListComponent {
     }
   }
 
-  getFilteredList() {
+  getFilteredList(flag: boolean = false) {
     const action: IAction = this.actionService
       .getActions()
       .get(this.mode) as IAction;
@@ -161,7 +161,8 @@ export class CountriesListComponent {
         this.pagination.getHttpParams(),
         this.slider.from,
         this.slider.to,
-        this.regions.value
+        this.regions.value,
+        flag
       )
       .subscribe({
         next: (response: ICountryPagination) => {

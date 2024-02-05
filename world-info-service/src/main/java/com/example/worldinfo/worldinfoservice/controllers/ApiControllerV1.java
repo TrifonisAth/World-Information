@@ -95,10 +95,15 @@ public class ApiControllerV1 {
             @RequestParam(value = "order", defaultValue = "ASC") String order,
             @RequestParam(value = "from") int from,
             @RequestParam(value = "to") int to,
-            @RequestParam(value = "regions") String regionStr
+            @RequestParam(value = "regions") String regionStr,
+            @RequestParam(value = "flag") int flag
     ) {
+        if (flag == 0){
+            offset = validateInput(offset, 0, 9513);
+        } else {
+            offset = 0;
+        }
         limit = validateInput(limit, 10, 100);
-        offset = validateInput(offset, 0, 9513);
         property = validateInput(property, PropertyDummy.class);
         order = validateInput(order, Order.class);
         List<String> regions = new ArrayList<>();
