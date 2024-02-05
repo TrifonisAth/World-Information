@@ -21,7 +21,11 @@
     <div class="dropdown">
       <mat-form-field>
         <mat-label>Regions</mat-label>
-        <mat-select [formControl]="regions" multiple>
+        <mat-select
+          [formControl]="regions"
+          multiple
+          (openedChange)="onSelectionChange($event)"
+        >
           <mat-option *ngFor="let region of regionsList" [value]="region">
             {{ region }}
           </mat-option>

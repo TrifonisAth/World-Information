@@ -13,6 +13,7 @@ import com.example.worldinfo.worldinfoservice.models.responses.pagination.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RequestMapping("api/v1")
@@ -90,22 +91,30 @@ public class ApiControllerV1 {
     public Pagination getCountriesComplete(
             @RequestParam(value = "limit", defaultValue = "10") int limit,
             @RequestParam(value = "offset", defaultValue = "0") int offset,
-            @RequestParam(value = "property", defaultValue = "name") String property,
-            @RequestParam(value = "order", defaultValue = "ASC") String order
+            @RequestParam(value = "property") String property,
+            @RequestParam(value = "order", defaultValue = "ASC") String order,
+            @RequestParam(value = "from") int from,
+            @RequestParam(value = "to") int to,
+            @RequestParam(value = "regions") String regionStr
     ) {
         limit = validateInput(limit, 10, 100);
         offset = validateInput(offset, 0, 9513);
         property = validateInput(property, PropertyDummy.class);
         order = validateInput(order, Order.class);
+        List<String> regions = new ArrayList<>();
+        if (regionStr != null) {
+            regions.addAll(Arrays.asList(regionStr.split(",")));
+        }
         // TODO: The query of the mapper has to be fixed.
 //        List<CountryComplete> data = countryMapper.findAllComplete(limit, offset, property, order);
         // TODO: Dummy data for now.
-        List<CountryWithStats> data = countryMapper.findAllCompleteDummy(limit, offset, property, order);
-        List<PaginationLink> links = getLinks("/countries/complete", limit, offset, property, order);
+        List<CountryWithStats> data = countryMapper.findAllCompleteDummy(limit, offset, property, order, from, to, regions);
+        int total = countryMapper.getDummyCount(limit, offset, property, order, from, to, regions);
+        List<PaginationLink> links = getLinks(limit, offset, property, order, from, to, regionStr);
         return new CountryWithStatsPagination(
                 offset / limit + 1,
                 limit,
-                9514,
+                total,
                 offset,
                 property, order, links, data
         );
@@ -148,15 +157,23 @@ public class ApiControllerV1 {
     private List<PaginationLink> getLinks(String resource, int limit, int offset, String property, String order) {
         List<PaginationLink> links = new ArrayList<>();
         int count = 239;
-        if (resource.equals("/countries/complete")){
-            count = 9514;
-        } else if (resource.equals("/countries/stats")) {
+        if (resource.equals("/countries/stats")) {
             count = 203;
         }
         links.add(new PaginationLink("next", resource + "?limit=" + limit + "&offset=" + (offset + limit) + "&property=" + property + "&order=" + order));
         links.add(new PaginationLink("prev", resource + "?limit=" + limit + "&offset=" + (offset - limit) + "&property=" + property + "&order=" + order));
         links.add(new PaginationLink("first", resource + "?limit=" + limit + "&offset=0&property=" + property + "&order=" + order));
         links.add(new PaginationLink("last", resource + "?limit=" + limit + "&offset=" + (count - limit) + "&property=" + property + "&order=" + order));
+        return links;
+    }
+
+    private List<PaginationLink> getLinks(int limit, int offset, String property, String order, int from, int to, String regionStr) {
+        List<PaginationLink> links = new ArrayList<>();
+        int count = 9514;
+        links.add(new PaginationLink("next", "/countries/complete" + "?limit=" + limit + "&offset=" + (offset + limit) + "&property=" + property + "&order=" + order + "&from=" + from + "&to=" + to + "&region=" + regionStr));
+        links.add(new PaginationLink("prev", "/countries/complete" + "?limit=" + limit + "&offset=" + (offset - limit) + "&property=" + property + "&order=" + order + "&from=" + from + "&to=" + to + "&region=" + regionStr));
+        links.add(new PaginationLink("first", "/countries/complete" + "?limit=" + limit + "&offset=0&property=" + property + "&order=" + order + "&from=" + from + "&to=" + to + "&region=" + regionStr));
+        links.add(new PaginationLink("last", "/countries/complete" + "?limit=" + limit + "&offset=" + (count - limit) + "&property=" + property + "&order=" + order + "&from=" + from + "&to=" + to + "&region=" + regionStr));
         return links;
     }
 

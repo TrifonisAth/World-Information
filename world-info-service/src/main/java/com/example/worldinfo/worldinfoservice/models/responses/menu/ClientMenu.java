@@ -36,19 +36,13 @@ public class ClientMenu implements Serializable {
     }
 
     private static Action getPaginationAction(String name, String uri, List<String> properties) {
-        RangeActionParam act1Param1 = new RangeActionParam("limit", "integer", "Countries per page", 10, 50, 10);
-        RangeActionParam act1Param2 = new RangeActionParam("offset", "integer", "Number of countries to skip", 0, 500, 1);
-        SelectActionParam act1Param3 = new SelectActionParam("property", "string", "Property to order by", properties);
-        SelectActionParam act1Param4 = new SelectActionParam("order", "string", "Order", Arrays.asList("ASC", "DESC"));
-        List<ActionParam> act1Params = new ArrayList<>();
-        act1Params.add(act1Param1);
-        act1Params.add(act1Param2);
-        act1Params.add(act1Param3);
-        act1Params.add(act1Param4);
+        SelectActionParam actParam = new SelectActionParam("property", "string", "Properties to order by", properties);
+        List<ActionParam> actParams = new ArrayList<>();
+        actParams.add(actParam);
         return new Action(name,
                 uri,
                 "GET",
-                act1Params);
+                actParams);
     }
 
     private static MenuItem getMenuItem1(Action act1) {
@@ -66,7 +60,6 @@ public class ClientMenu implements Serializable {
                 act2);
     }
 
-    // TODO: Change later!.
     private static MenuItem getMenuItem3(Action act3) {
         return new MenuItem("Display All Countries Stats table with Continents and Regions",
                 "Displays every year's stats for every country." +

@@ -115,4 +115,33 @@ export class HttpService {
       });
     });
   }
+
+  getFilteredList(
+    action: IAction,
+    params: HttpParams,
+    from: number,
+    to: number,
+    regions: string[]
+  ): Observable<any> {
+    const url = `${this.apiURL}/countries/complete`;
+    const urlParams = new HttpParams()
+      .set('from', from)
+      .set('to', to)
+      .set('regions', regions.join(','))
+      .set('limit', params.get('limit') || '')
+      .set('offset', params.get('offset') || '')
+      .set('order', params.get('order') || '')
+      .set('property', params.get('property') || '');
+    return new Observable((observer: Observer<any>) => {
+      this.http.request(action.method, url, { params: urlParams }).subscribe({
+        next: (response) => {
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        },
+      });
+    });
+  }
 }

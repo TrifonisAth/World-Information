@@ -11,6 +11,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { CountryPagination } from '../models/countryPagination';
 import { FormControl } from '@angular/forms';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-countries-list',
@@ -47,6 +48,7 @@ export class CountriesListComponent {
     if (this.router.url.includes('complete')) {
       this.mode = 'ShowAll';
       this.getFilterSettings();
+      return;
     }
     this.getCountriesRequest();
   }
@@ -63,7 +65,6 @@ export class CountriesListComponent {
           this.displayedColumns = this.httpService
             .getOrderParams()
             .get(this.mode);
-          console.log(response);
         },
         error: (error) => {
           console.error(error);
@@ -83,6 +84,7 @@ export class CountriesListComponent {
         };
         this.regionsList = response.regions;
         this.regions = new FormControl(response.regions);
+        this.getFilteredList();
       },
       error: (error) => {
         console.error(error);
@@ -97,6 +99,10 @@ export class CountriesListComponent {
   handlePageEvent(event: any): void {
     this.pagination.setOffset(event.pageIndex * event.pageSize);
     this.pagination.setLimit(event.pageSize);
+    if (this.mode === 'ShowAll') {
+      this.getFilteredList();
+      return;
+    }
     this.getCountriesRequest();
   }
 
@@ -108,6 +114,10 @@ export class CountriesListComponent {
   onPropertyClick(property: string): void {
     this.pagination.setOrderBy(property);
     this.pagination.setOrder(this.isAscending() ? 'DESC' : 'ASC');
+    if (this.mode === 'ShowAll') {
+      this.getFilteredList();
+      return;
+    }
     this.getCountriesRequest();
   }
 
@@ -128,8 +138,41 @@ export class CountriesListComponent {
 
   onSliderToChange(event: number) {
     this.slider.to = event;
+    this.getFilteredList();
   }
   onSliderFromChange(event: number) {
     this.slider.from = event;
+    this.getFilteredList();
+  }
+
+  onSelectionChange(event: boolean) {
+    if (!event) {
+      this.getFilteredList();
+    }
+  }
+
+  getFilteredList() {
+    const action: IAction = this.actionService
+      .getActions()
+      .get(this.mode) as IAction;
+    this.httpService
+      .getFilteredList(
+        action,
+        this.pagination.getHttpParams(),
+        this.slider.from,
+        this.slider.to,
+        this.regions.value
+      )
+      .subscribe({
+        next: (response: ICountryPagination) => {
+          this.pagination = new CountryPagination(response);
+          this.displayedColumns = this.httpService
+            .getOrderParams()
+            .get(this.mode);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
 }

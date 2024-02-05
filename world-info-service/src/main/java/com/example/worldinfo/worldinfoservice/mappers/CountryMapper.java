@@ -4,6 +4,7 @@ import com.example.worldinfo.worldinfoservice.entities.Country;
 import com.example.worldinfo.worldinfoservice.entities.CountryComplete;
 import com.example.worldinfo.worldinfoservice.entities.CountryWithStats;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -47,10 +48,18 @@ public interface CountryMapper {
                     ")" +
                     "cs " +
                     "ON c.country_id = cs.country_id " +
+                    "WHERE year BETWEEN #{from} AND #{to} " +
                     "ORDER BY ${property} " +  "${order} " +
                     "LIMIT #{limit} OFFSET #{offset}"
     )
-    List<CountryWithStats> findAllCompleteDummy(@PathVariable int limit, @PathVariable int offset, @PathVariable String property, @PathVariable String order);
+    List<CountryWithStats> findAllCompleteDummy(@Param("limit") int limit,
+                                                @Param("offset") int offset,
+                                                @Param("property") String property,
+                                                @Param("order") String order,
+                                                @Param("from") int from,
+                                                @Param("to") int to,
+                                                @Param("regions") List<String> regions);
+
 
 
     @Select("SELECT " +
@@ -80,4 +89,22 @@ public interface CountryMapper {
 
     @Select("SELECT COUNT(*) FROM countries")
     int getCountriesCount();
+
+    @Select("SELECT COUNT(*) "+
+            "FROM countries c " +
+            "JOIN " +
+            "(SELECT country_id, year, population, gdp " +
+            "FROM country_stats " +
+            ")" +
+            "cs " +
+            "ON c.country_id = cs.country_id " +
+            "WHERE year BETWEEN #{from} AND #{to} " +
+            "ORDER BY ${property} " +  "${order} ")
+    int getDummyCount(@Param("limit") int limit,
+                      @Param("offset") int offset,
+                      @Param("property") String property,
+                      @Param("order") String order,
+                      @Param("from") int from,
+                      @Param("to") int to,
+                      @Param("regions") List<String> regions);
 }
