@@ -294,10 +294,9 @@
   </ng-container>
 
   <!-- GDP per Capita Column -->
-  <!-- Remove the OR in the ngIf -->
   <ng-container
     matColumnDef="gdp_per_capita"
-    *ngIf="getMode() === 'ShowCountriesStats' || getMode() === 'ShowAll'"
+    *ngIf="getMode() === 'ShowCountriesStats'"
   >
     <th
       mat-header-cell

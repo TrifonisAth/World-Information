@@ -95,7 +95,7 @@ public class ApiControllerV1 {
     ) {
         limit = validateInput(limit, 10, 100);
         offset = validateInput(offset, 0, 9513);
-        property = validateInput(property, PropertyWithStats.class);
+        property = validateInput(property, PropertyDummy.class);
         order = validateInput(order, Order.class);
         // TODO: The query of the mapper has to be fixed.
 //        List<CountryComplete> data = countryMapper.findAllComplete(limit, offset, property, order);
@@ -172,8 +172,11 @@ public class ApiControllerV1 {
         NAME, COUNTRY_CODE3, YEAR, POPULATION, GDP, GDP_PER_CAPITA
     }
 
-
     private enum PropertyFull {
         NAME, CONTINENT, REGION, YEAR, POPULATION, GDP
+    }
+
+    private enum PropertyDummy {
+        NAME, COUNTRY_CODE3, YEAR, POPULATION, GDP
     }
 }

@@ -24,7 +24,7 @@ public class ClientMenu implements Serializable {
         Action act2 = getPaginationAction("ShowCountriesStats", "/countries/stats", Arrays.asList("name", "country_code3", "year", "population", "gdp", "gdp_per_capita"));
 //      TODO: Uncomment later, when the query is ready.
 //        Action act3 = getPaginationAction("ShowAll", "/countries/complete", Arrays.asList("continent", "region", "country", "year", "population", "gdp"));
-        Action act3 = getPaginationAction("ShowAll", "/countries/complete", Arrays.asList("name", "country_code3", "year", "population", "gdp", "gdp_per_capita"));
+        Action act3 = getPaginationAction("ShowAll", "/countries/complete", Arrays.asList("name", "country_code3", "year", "population", "gdp"));
         MenuItem menuItem1 = getMenuItem1(act1);
         MenuItem menuItem2 = getMenuItem2(act2);
         MenuItem menuItem3 = getMenuItem3(act3);
