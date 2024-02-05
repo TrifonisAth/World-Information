@@ -102,7 +102,6 @@ export interface IPagination {
 
 export interface ICountryPagination extends IPagination {
   countries: ICountry[];
-
   setCountries(data: ICountry[]): void;
   getCountries(): ICountry[];
 }
@@ -118,4 +117,10 @@ export interface ISlider {
   step: number;
   from: number;
   to: number;
+}
+
+export interface IFilterSettings {
+  min: number;
+  max: number;
+  regions: string[];
 }

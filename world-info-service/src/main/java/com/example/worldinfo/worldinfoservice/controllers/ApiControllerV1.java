@@ -1,11 +1,13 @@
 package com.example.worldinfo.worldinfoservice.controllers;
 
 import com.example.worldinfo.worldinfoservice.entities.Country;
-import com.example.worldinfo.worldinfoservice.entities.CountryComplete;
 import com.example.worldinfo.worldinfoservice.entities.CountryWithStats;
 import com.example.worldinfo.worldinfoservice.entities.Language;
 import com.example.worldinfo.worldinfoservice.mappers.CountryMapper;
 import com.example.worldinfo.worldinfoservice.mappers.LanguageMapper;
+import com.example.worldinfo.worldinfoservice.mappers.RegionMapper;
+import com.example.worldinfo.worldinfoservice.mappers.StatsMapper;
+import com.example.worldinfo.worldinfoservice.models.FilterSettings;
 import com.example.worldinfo.worldinfoservice.models.responses.menu.ClientMenu;
 import com.example.worldinfo.worldinfoservice.models.responses.pagination.*;
 import org.springframework.web.bind.annotation.*;
@@ -19,16 +21,14 @@ public class ApiControllerV1 {
 
     private final LanguageMapper languageMapper;
     private final CountryMapper countryMapper;
+    private final StatsMapper statsMapper;
+    private final RegionMapper regionMapper;
 
-    public ApiControllerV1(LanguageMapper languageMapper, CountryMapper countryMapper) {
+    public ApiControllerV1(LanguageMapper languageMapper, CountryMapper countryMapper, StatsMapper statsMapper, RegionMapper regionMapper) {
         this.languageMapper = languageMapper;
         this.countryMapper = countryMapper;
-    }
-
-    @GetMapping("countries/{countryId}/languages")
-    public List<Language> getLanguagesByCountryId(@PathVariable int countryId) {
-        countryId = validateInput(countryId, 1, 239);
-        return languageMapper.findLanguagesByCountryId(countryId);
+        this.statsMapper = statsMapper;
+        this.regionMapper = regionMapper;
     }
 
     @GetMapping("menu")
@@ -56,6 +56,12 @@ public class ApiControllerV1 {
                 offset,
                 property, order, links, data
         );
+    }
+
+    @GetMapping("countries/{countryId}/languages")
+    public List<Language> getLanguagesByCountryId(@PathVariable int countryId) {
+        countryId = validateInput(countryId, 1, 239);
+        return languageMapper.findLanguagesByCountryId(countryId);
     }
 
     @GetMapping("countries/stats")
@@ -110,6 +116,14 @@ public class ApiControllerV1 {
 //                offset,
 //                property, order, links, data
 //        );
+    }
+
+    @GetMapping("filter/settings")
+    public FilterSettings getFilterSettings() {
+        int minYear = statsMapper.findMinYear();
+        int maxYear = statsMapper.findMaxYear();
+        List<String> regions = regionMapper.findAll();
+        return new FilterSettings(minYear, maxYear, regions);
     }
 
     private<T extends Enum<T>> String validateInput(String variable, Class<T> enumClass) {

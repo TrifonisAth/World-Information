@@ -5,6 +5,7 @@ import {
   IAction,
   ICountry,
   ICountryPagination,
+  IFilterSettings,
   ISlider,
 } from '../interfaces/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,21 +22,15 @@ export class CountriesListComponent {
   private pagination: CountryPagination = new CountryPagination();
   private mode: string = 'ShowCountries';
   slider: ISlider = {
-    from: 1960,
-    to: 2018,
+    from: 1900,
+    to: 2024,
     step: 1,
-    max: 2018,
-    min: 1960,
+    max: 2024,
+    min: 1900,
   };
   displayedColumns: string[] | undefined = [];
-  regions = new FormControl([
-    'Africa',
-    'Americas',
-    'Asia',
-    'Europe',
-    'Oceania',
-  ]);
-  regionsList: string[] = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'];
+  regions = new FormControl();
+  regionsList: string[] = [];
 
   constructor(
     private httpService: HttpService,
@@ -51,6 +46,7 @@ export class CountriesListComponent {
     }
     if (this.router.url.includes('complete')) {
       this.mode = 'ShowAll';
+      this.getFilterSettings();
     }
     this.getCountriesRequest();
   }
@@ -73,6 +69,25 @@ export class CountriesListComponent {
           console.error(error);
         },
       });
+  }
+
+  getFilterSettings(): void {
+    this.httpService.getFilterSettings().subscribe({
+      next: (response: IFilterSettings) => {
+        this.slider = {
+          from: response.min,
+          to: response.max,
+          step: 1,
+          max: response.max,
+          min: response.min,
+        };
+        this.regionsList = response.regions;
+        this.regions = new FormControl(response.regions);
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   getPagination(): CountryPagination {
