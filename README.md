@@ -2,7 +2,7 @@
 
 ## Features
 
-- Material UI tables are implemented in the GUI, allowing users to navigate through the data.
+- Angular Material UI tables are implemented in the GUI, allowing users to navigate through the data.
 
 - Each table supports sorting by every column in ascending and descending order.
 
